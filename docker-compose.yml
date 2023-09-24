@@ -1,0 +1,184 @@
+version: '3.3'
+
+services:
+  redis01-master:
+    container_name: redis-master-1
+    image: "redis:alpine" 
+    sysctls:
+      net.core.somaxconn: 20000
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    ports:
+      - "6379:6379"
+      - "16379:16379"
+    environment:
+     - REDIS_REPLICATION_MODE=master
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis01-master/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
+    networks:
+      app_net:
+        ipv4_address: 173.17.0.10
+    depends_on:
+      - redis-overcommit
+
+  redis01-slave:
+    container_name: redis-slave-1
+    image: "redis:alpine"
+    sysctls:
+      net.core.somaxconn: 20000
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    ports:
+      - "6380:6379"
+      - "16380:16379"
+    environment:
+     - REDIS_REPLICATION_MODE=slave
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis01-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
+    networks:
+      app_net:
+        ipv4_address: 173.17.0.40
+    depends_on:
+      - redis-overcommit
+  
+  redis02-master:
+    container_name: redis-master-2
+    image: "redis:alpine"
+    sysctls:
+      net.core.somaxconn: 20000
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    ports:
+      - "6381:6379"
+      - "16381:16379"
+    environment:
+     - REDIS_REPLICATION_MODE=master
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis02-master/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
+    networks:
+      app_net:
+        ipv4_address: 173.17.0.20
+    depends_on:
+      - redis-overcommit
+
+  redis02-slave:
+    container_name: redis-slave-2
+    image: "redis:alpine" 
+    sysctls:
+      net.core.somaxconn: 20000
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    ports:
+      - "6382:6379"
+      - "16382:16379"
+    environment:
+     - REDIS_REPLICATION_MODE=slave
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis02-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
+    networks:
+      app_net:
+        ipv4_address: 173.17.0.50
+    depends_on:
+      - redis-overcommit
+
+  redis03-master:
+    container_name: redis-master-3
+    image: "redis:alpine"
+    sysctls:
+      net.core.somaxconn: 20000
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    ports:
+      - "6383:6379"
+      - "16383:16379"
+    environment:
+     - REDIS_REPLICATION_MODE=master
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis03-master/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
+    networks:
+      app_net:
+        ipv4_address: 173.17.0.30
+    depends_on:
+      - redis-overcommit
+
+  redis03-slave:
+    container_name: redis-slave-3
+    image: "redis:alpine"
+    sysctls:
+      net.core.somaxconn: 20000
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    ports:
+      - "6384:6379"
+      - "16384:16379"
+    environment:
+     - REDIS_REPLICATION_MODE=slave
+    volumes:
+      - redis-data:/var/lib/redis
+      - ./redis03-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
+    networks:
+      app_net:
+        ipv4_address: 173.17.0.60
+    depends_on:
+      - redis-overcommit
+
+  redis-commander:
+    container_name: redis-commander
+    image: rediscommander/redis-commander:latest
+    env_file:
+      - ./.env
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis01-master
+      - redis02-master
+      - redis03-master
+      - redis01-slave
+      - redis02-slave
+      - redis03-slave
+    networks:
+      app_net:
+  
+  redis-overcommit:
+    build: https://github.com/bkuhl/redis-overcommit-on-host.git
+    restart: 'no'
+    privileged: true
+    volumes:
+      - /proc/sys/vm:/mnt/vm
+
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.17.0.0/16
+          gateway: 173.17.0.1
