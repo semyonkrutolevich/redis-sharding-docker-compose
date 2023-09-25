@@ -1,6 +1,6 @@
 # Redis Sharding with Docker Compose
 
-This repository contains a Docker Compose file and a bash script to set up Redis sharding with password authentication using Docker. The bash script modifies the Redis configuration files to update the password, starts the Redis containers, and creates Redis cluster.
+This repository contains a Docker Compose file and a bash script to set up Redis sharding with password authentication and TLS connection using Docker. The bash script modifies the Redis configuration files to update the password, starts the Redis containers, and creates Redis cluster.
 
 ## Instructions
 
@@ -16,10 +16,16 @@ This repository contains a Docker Compose file and a bash script to set up Redis
    cd redis-sharding-docker-compose
    ```
    
-3. Give the permissions to the script that generate certificates.:
+3. Give the permissions to the start script and generate the certifications script:
 
    ```
    chmod +x start.sh
+   chmod +x ./tls/generate.sh
+   ```
+4. Run the bash script to generate the CA certificates.
+
+   ```
+   cd ./tls && ./generate.sh && cd ../
    ```
 
 5. Run the bash script to change the Redis password and update the configuration files:
