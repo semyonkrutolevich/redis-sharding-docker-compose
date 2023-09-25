@@ -16,22 +16,22 @@ This repository contains a Docker Compose file and a bash script to set up Redis
    cd redis-sharding-docker-compose
    ```
    
-3. Give the permissions to the script:
+3. Give the permissions to the script that generate certificates.:
 
    ```
-   chmod +x setup.sh
+   chmod +x start.sh
    ```
 
 5. Run the bash script to change the Redis password and update the configuration files:
 
    ```
-   ./setup.sh
+   . ./start.sh
    ```
    
    The script will prompt you to enter the Redis password. If you prefer to pass the password as a command-line argument, you can do so:
 
    ```
-   ./setup.sh your-password
+   . ./start.sh your-password
    ```
 
    Press 'y' if you want to start the Redis instances.

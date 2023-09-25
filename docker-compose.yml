@@ -3,7 +3,9 @@ version: '3.3'
 services:
   redis01-master:
     container_name: redis-master-1
-    image: "redis:alpine" 
+    build:
+      context: .
+      dockerfile: ./redis01-master/Dockerfile
     sysctls:
       net.core.somaxconn: 20000
     ulimits:
@@ -16,8 +18,9 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
+      - ./redis01-master/logs:/app/logs
       - redis-data:/var/lib/redis
-      - ./redis01-master/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis01-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
     networks:
       app_net:
@@ -27,7 +30,9 @@ services:
 
   redis01-slave:
     container_name: redis-slave-1
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: ./redis01-slave/Dockerfile
     sysctls:
       net.core.somaxconn: 20000
     ulimits:
@@ -40,8 +45,9 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
+      - ./redis01-slave/logs:/app/logs
       - redis-data:/var/lib/redis
-      - ./redis01-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis01-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
     networks:
       app_net:
@@ -51,7 +57,9 @@ services:
   
   redis02-master:
     container_name: redis-master-2
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: ./redis02-master/Dockerfile
     sysctls:
       net.core.somaxconn: 20000
     ulimits:
@@ -64,8 +72,9 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
+      - ./redis02-master/logs:/app/logs
       - redis-data:/var/lib/redis
-      - ./redis02-master/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis02-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
     networks:
       app_net:
@@ -75,7 +84,9 @@ services:
 
   redis02-slave:
     container_name: redis-slave-2
-    image: "redis:alpine" 
+    build:
+      context: .
+      dockerfile: ./redis02-slave/Dockerfile
     sysctls:
       net.core.somaxconn: 20000
     ulimits:
@@ -88,8 +99,9 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
+      - ./redis02-slave/logs:/app/logs
       - redis-data:/var/lib/redis
-      - ./redis02-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis02-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
     networks:
       app_net:
@@ -99,7 +111,9 @@ services:
 
   redis03-master:
     container_name: redis-master-3
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: ./redis03-master/Dockerfile
     sysctls:
       net.core.somaxconn: 20000
     ulimits:
@@ -112,8 +126,9 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
+      - ./redis03-master/logs:/app/logs
       - redis-data:/var/lib/redis
-      - ./redis03-master/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis03-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
     networks:
       app_net:
@@ -123,7 +138,9 @@ services:
 
   redis03-slave:
     container_name: redis-slave-3
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: ./redis03-slave/Dockerfile
     sysctls:
       net.core.somaxconn: 20000
     ulimits:
@@ -136,8 +153,9 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
+      - ./redis03-slave/logs:/app/logs
       - redis-data:/var/lib/redis
-      - ./redis03-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis03-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
     networks:
       app_net:
@@ -147,7 +165,9 @@ services:
 
   redis-commander:
     container_name: redis-commander
-    image: rediscommander/redis-commander:latest
+    image: ghcr.io/joeferner/redis-commander:latest
+    volumes:
+      - ./tls:/tmp
     env_file:
       - ./.env
     ports:
