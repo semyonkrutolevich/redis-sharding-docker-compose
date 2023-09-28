@@ -15,6 +15,7 @@ services:
     ports:
       - "6379:6379"
       - "16379:16379"
+    restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
@@ -42,6 +43,7 @@ services:
     ports:
       - "6380:6379"
       - "16380:16379"
+    restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
@@ -69,6 +71,7 @@ services:
     ports:
       - "6381:6379"
       - "16381:16379"
+    restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
@@ -96,6 +99,7 @@ services:
     ports:
       - "6382:6379"
       - "16382:16379"
+    restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
@@ -123,6 +127,7 @@ services:
     ports:
       - "6383:6379"
       - "16383:16379"
+    restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
@@ -150,6 +155,7 @@ services:
     ports:
       - "6384:6379"
       - "16384:16379"
+    restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
