@@ -18,7 +18,7 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
-      - ./redis01-master/logs:/app/logs
+      - ./redis01-master:/app/logs
       - redis-data:/var/lib/redis
       - ./redis01-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
@@ -45,7 +45,7 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
-      - ./redis01-slave/logs:/app/logs
+      - ./redis01-slave:/app/logs
       - redis-data:/var/lib/redis
       - ./redis01-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
@@ -72,7 +72,7 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
-      - ./redis02-master/logs:/app/logs
+      - ./redis02-master:/app/logs
       - redis-data:/var/lib/redis
       - ./redis02-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
@@ -99,7 +99,7 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
-      - ./redis02-slave/logs:/app/logs
+      - ./redis02-slave:/app/logs
       - redis-data:/var/lib/redis
       - ./redis02-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
@@ -126,7 +126,7 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=master
     volumes:
-      - ./redis03-master/logs:/app/logs
+      - ./redis03-master:/app/logs
       - redis-data:/var/lib/redis
       - ./redis03-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
@@ -153,7 +153,7 @@ services:
     environment:
      - REDIS_REPLICATION_MODE=slave
     volumes:
-      - ./redis03-slave/logs:/app/logs
+      - ./redis03-slave:/app/logs
       - redis-data:/var/lib/redis
       - ./redis03-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
@@ -162,25 +162,6 @@ services:
         ipv4_address: 173.17.0.60
     depends_on:
       - redis-overcommit
-
-  redis-commander:
-    container_name: redis-commander
-    image: ghcr.io/joeferner/redis-commander:latest
-    volumes:
-      - ./tls:/tmp
-    env_file:
-      - ./.env
-    ports:
-      - "8081:8081"
-    depends_on:
-      - redis01-master
-      - redis02-master
-      - redis03-master
-      - redis01-slave
-      - redis02-slave
-      - redis03-slave
-    networks:
-      app_net:
   
   redis-overcommit:
     build: https://github.com/bkuhl/redis-overcommit-on-host.git

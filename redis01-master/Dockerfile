@@ -8,13 +8,12 @@ COPY ./redis01-master/conf/redis.conf /tmp/redis.conf
 RUN chmod 644 /tmp/redis.conf \
     && cp /tmp/redis.conf /usr/local/etc/redis/redis.conf
 
-RUN mkdir /app
-RUN mkdir /app/logs
+RUN mkdir -p /app/logs
 RUN touch /app/logs/redis.log \
-    && chmod 777 /app/logs/redis.log
+    && chmod 775 /app/logs/redis.log
 
 RUN touch /app/redis.pid \
-    && chmod 777 /app/redis.pid
+    && chmod 775 /app/redis.pid
 
 
 COPY ./tls /app/tls
