@@ -19,11 +19,9 @@ RUN touch /app/redis.pid \
 COPY ./tls /app/tls
 
 RUN chmod 644 /app/tls/ca.crt
-RUN chmod 644 /app/tls/ca.key
 
 RUN chmod 644 /app/tls/redis.crt
 RUN chmod 644 /app/tls/redis.key
-RUN chmod 644 /app/tls/redis.csr
 
 
 # Set the entrypoint command
