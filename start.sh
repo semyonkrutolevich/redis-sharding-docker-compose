@@ -44,7 +44,7 @@ read -rp "Do you want to start a redis? (y/n): " answer
 
 if [[ $answer == "y" || $answer == "Y" ]]; then
     docker-compose up --build -d
-    docker exec -it redis-master-1 redis-cli --tls --cacert /app/tls/ca.crt --cert redis.crt --key redis.key -a $PASSWORD --cluster create 173.17.0.10:6379 173.17.0.20:6379 173.17.0.30:6379 173.17.0.40:6379 173.17.0.50:6379 173.17.0.60:6379 --cluster-replicas 1 --cluster-yes
+    docker exec -it redis-master-1 redis-cli --tls --cacert /app/tls/ca.crt --cert /app/tls/redis.crt --key /app/tls/redis.key -a $PASSWORD --cluster create 173.17.0.10:6379 173.17.0.20:6379 173.17.0.30:6379 173.17.0.40:6379 173.17.0.50:6379 173.17.0.60:6379 --cluster-replicas 1 --cluster-yes
 elif [[ $answer == "n" || $answer == "N" ]]; then
   echo "No command will be run."
 else
