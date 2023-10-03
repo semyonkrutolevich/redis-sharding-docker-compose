@@ -41,8 +41,8 @@ services:
         soft: 64000
         hard: 64000
     ports:
-      - "6380:6379"
-      - "16380:16379"
+      - "6380:6380"
+      - "16380:16380"
     restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=slave
@@ -69,8 +69,8 @@ services:
         soft: 64000
         hard: 64000
     ports:
-      - "6381:6379"
-      - "16381:16379"
+      - "6381:6381"
+      - "16381:16381"
     restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=master
@@ -97,8 +97,8 @@ services:
         soft: 64000
         hard: 64000
     ports:
-      - "6382:6379"
-      - "16382:16379"
+      - "6382:6382"
+      - "16382:16382"
     restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=slave
@@ -125,8 +125,8 @@ services:
         soft: 64000
         hard: 64000
     ports:
-      - "6383:6379"
-      - "16383:16379"
+      - "6383:6383"
+      - "16383:16383"
     restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=master
@@ -153,8 +153,8 @@ services:
         soft: 64000
         hard: 64000
     ports:
-      - "6384:6379"
-      - "16384:16379"
+      - "6384:6384"
+      - "16384:16384"
     restart: 'always'
     environment:
      - REDIS_REPLICATION_MODE=slave
