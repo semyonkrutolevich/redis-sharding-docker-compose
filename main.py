@@ -1,10 +1,10 @@
 """
 Script for test redis cluster tls conn
 
-pip install redis
+pip install redis-py-cluster
 
 """
-from redis.cluster import RedisCluster, ClusterNode
+from rediscluster import RedisCluster
 
 
 
@@ -15,12 +15,12 @@ ssl_ca_certs=ssl_certfile
 
 r = RedisCluster(
     startup_nodes=[
-        ClusterNode('localhost', 6379),
-        ClusterNode('localhost', 6380), 
-        ClusterNode('localhost', 6381), 
-        ClusterNode('localhost', 6382), 
-        ClusterNode('localhost', 6383),
-        ClusterNode('localhost', 6384)
+        {"host": "127.0.0.1", "port": 6379 },
+        {"host": "127.0.0.1", "port": 6381 }, 
+        {"host": "127.0.0.1", "port": 6380 }, 
+        {"host": "127.0.0.1", "port": 6382 }, 
+        {"host": "127.0.0.1", "port": 6383 },
+        {"host": "127.0.0.1", "port": 6384 }
     ],
     password="12345",
     decode_responses=True,
@@ -31,4 +31,5 @@ r = RedisCluster(
     ssl_ca_certs=ssl_ca_certs,
 )
 
-print(r.get_nodes())
+print(r.cluster_nodes)
+print(r.set("a", "b"))
