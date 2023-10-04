@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./redis01-master/Dockerfile
-    sysctls:
-      net.core.somaxconn: 20000
     ulimits:
       nofile:
         soft: 64000
@@ -32,8 +30,6 @@ services:
     build:
       context: .
       dockerfile: ./redis01-slave/Dockerfile
-    sysctls:
-      net.core.somaxconn: 20000
     ulimits:
       nofile:
         soft: 64000
@@ -58,8 +54,6 @@ services:
     build:
       context: .
       dockerfile: ./redis02-master/Dockerfile
-    sysctls:
-      net.core.somaxconn: 20000
     ulimits:
       nofile:
         soft: 64000
@@ -84,8 +78,6 @@ services:
     build:
       context: .
       dockerfile: ./redis02-slave/Dockerfile
-    sysctls:
-      net.core.somaxconn: 20000
     ulimits:
       nofile:
         soft: 64000
@@ -110,8 +102,6 @@ services:
     build:
       context: .
       dockerfile: ./redis03-master/Dockerfile
-    sysctls:
-      net.core.somaxconn: 20000
     ulimits:
       nofile:
         soft: 64000
@@ -136,8 +126,6 @@ services:
     build:
       context: .
       dockerfile: ./redis03-slave/Dockerfile
-    sysctls:
-      net.core.somaxconn: 20000
     ulimits:
       nofile:
         soft: 64000
