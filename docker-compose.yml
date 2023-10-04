@@ -23,9 +23,7 @@ services:
       - redis-data:/var/lib/redis
       - ./redis01-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
-    networks:
-      app_net:
-        ipv4_address: 173.17.0.10
+    network_mode: host
     depends_on:
       - redis-overcommit
 
@@ -51,9 +49,7 @@ services:
       - redis-data:/var/lib/redis
       - ./redis01-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
-    networks:
-      app_net:
-        ipv4_address: 173.17.0.40
+    network_mode: host
     depends_on:
       - redis-overcommit
   
@@ -79,9 +75,7 @@ services:
       - redis-data:/var/lib/redis
       - ./redis02-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
-    networks:
-      app_net:
-        ipv4_address: 173.17.0.20
+    network_mode: host
     depends_on:
       - redis-overcommit
 
@@ -107,9 +101,7 @@ services:
       - redis-data:/var/lib/redis
       - ./redis02-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
-    networks:
-      app_net:
-        ipv4_address: 173.17.0.50
+    network_mode: host
     depends_on:
       - redis-overcommit
 
@@ -135,9 +127,7 @@ services:
       - redis-data:/var/lib/redis
       - ./redis03-master/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
-    networks:
-      app_net:
-        ipv4_address: 173.17.0.30
+    network_mode: host
     depends_on:
       - redis-overcommit
 
@@ -163,9 +153,7 @@ services:
       - redis-data:/var/lib/redis
       - ./redis03-slave/conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASS:-12345}
-    networks:
-      app_net:
-        ipv4_address: 173.17.0.60
+    network_mode: host
     depends_on:
       - redis-overcommit
   
@@ -180,12 +168,3 @@ services:
 volumes:
   redis-data:
     driver: local
-
-networks:
-  app_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 173.17.0.0/16
-          gateway: 173.17.0.1
