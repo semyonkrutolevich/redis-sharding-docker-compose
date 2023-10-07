@@ -1,4 +1,4 @@
-FROM redis:alpine
+FROM redis:6.2-alpine3.16
 
 # Set the working directory
 WORKDIR /usr/local/etc/redis
